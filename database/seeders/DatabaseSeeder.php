@@ -23,11 +23,8 @@ class DatabaseSeeder extends Seeder
         TravelPurposeSeeder::class,
         DestinationCategorySeeder::class,
         GeneralActivitySeeder::class,
+        AdminUserSeeder::class,
     ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
     }
 }
