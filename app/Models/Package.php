@@ -14,6 +14,8 @@ class Package extends Model
         'description',
         'number_of_days',
         'base_price',
+        'package_image',
+        'route_map_image',
         'status',
     ];
 

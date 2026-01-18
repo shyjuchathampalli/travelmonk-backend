@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         DestinationCategorySeeder::class,
         GeneralActivitySeeder::class,
         AdminUserSeeder::class,
+        ArrivalPointSeeder::class,
     ]);
 
     }

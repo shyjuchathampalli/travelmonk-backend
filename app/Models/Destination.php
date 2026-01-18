@@ -14,6 +14,7 @@ class Destination extends Model
         'arrival_point_id',
         'name',
         'description',
+        'image',
         'latitude',
         'longitude',
         'status',

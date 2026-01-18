@@ -13,6 +13,7 @@ class Vendor extends Model
         'destination_id',
         'destination_category_id',
         'business_name',
+        'image',
         'contact_name',
         'email',
         'phone',
