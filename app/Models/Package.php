@@ -53,8 +53,6 @@ class Package extends Model
 
     public function dayPlans()
     {
-        return $this->hasMany(PackageDayPlan::class)
-                    ->orderBy('day_number')
-                    ->orderBy('sequence');
+        return $this->hasMany(PackageDayPlan::class);
     }
 }

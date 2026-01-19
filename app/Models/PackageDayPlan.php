@@ -13,8 +13,7 @@ class PackageDayPlan extends Model
         'package_id',
         'day_number',
         'destination_id',
-        'activity_id',
-        'sequence',
+        'description',
     ];
 
     /**
@@ -30,8 +29,13 @@ class PackageDayPlan extends Model
         return $this->belongsTo(Destination::class);
     }
 
-    public function activity()
+    public function activities()
     {
-        return $this->belongsTo(Activity::class);
+        return $this->belongsToMany(
+            Activity::class,
+            'package_day_plan_activity'
+        )
+            ->withPivot('sequence')
+            ->orderBy('package_day_plan_activity.sequence');
     }
 }

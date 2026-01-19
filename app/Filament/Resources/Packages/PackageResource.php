@@ -7,6 +7,7 @@ use App\Filament\Resources\Packages\Pages\EditPackage;
 use App\Filament\Resources\Packages\Pages\ListPackages;
 use App\Filament\Resources\Packages\Schemas\PackageForm;
 use App\Filament\Resources\Packages\Tables\PackagesTable;
+use App\Filament\Resources\Packages\RelationManagers\PackageDayPlansRelationManager;
 use App\Models\Package;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -35,7 +36,7 @@ class PackageResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PackageDayPlansRelationManager::class,
         ];
     }
 
@@ -47,4 +48,6 @@ class PackageResource extends Resource
             'edit' => EditPackage::route('/{record}/edit'),
         ];
     }
+
+
 }
