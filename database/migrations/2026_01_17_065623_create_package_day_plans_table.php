@@ -12,17 +12,18 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('package_id')
-                  ->constrained('packages')
-                  ->cascadeOnDelete();
+                ->constrained('packages')
+                ->cascadeOnDelete();
 
             $table->unsignedInteger('day_number');
 
             $table->foreignId('destination_id')
-                  ->constrained('destinations')
-                  ->cascadeOnDelete();
+                ->constrained('destinations')
+                ->cascadeOnDelete();
+
+            $table->unsignedBigInteger('activity_id')->nullable();
 
             $table->unsignedInteger('sequence')->default(1);
-
             $table->timestamps();
 
             $table->index(['package_id', 'day_number']);
