@@ -6,25 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('package_day_plans', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('package_id')
                   ->constrained('packages')
                   ->cascadeOnDelete();
+
             $table->unsignedInteger('day_number');
+
             $table->foreignId('destination_id')
                   ->constrained('destinations')
                   ->cascadeOnDelete();
-            $table->foreignId('activity_id')
-                  ->nullable()
-                  ->constrained('activities')
-                  ->nullOnDelete();
+
             $table->unsignedInteger('sequence')->default(1);
+
             $table->timestamps();
 
             $table->index(['package_id', 'day_number']);
