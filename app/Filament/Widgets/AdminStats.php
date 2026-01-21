@@ -17,7 +17,7 @@ class AdminStats extends StatsOverviewWidget
             Stat::make('Destination listed', Destination::count())
                 ->icon('heroicon-o-map'),
 
-            Stat::make('Packages', Package::count())
+            Stat::make('Packages Listed', Package::count())
                 ->icon('heroicon-o-archive-box'),
 
             Stat::make('Active Vendors', Vendor::where('status', true)->count())
