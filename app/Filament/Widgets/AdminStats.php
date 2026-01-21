@@ -23,7 +23,7 @@ class AdminStats extends StatsOverviewWidget
             Stat::make('Active Vendors Listed', Vendor::where('status', true)->count())
                 ->icon('heroicon-o-building-storefront'),
 
-            Stat::make('Active Activities', Activity::where('status', true)->count())
+            Stat::make('Active Activities Listed', Activity::where('status', true)->count())
                 ->icon('heroicon-o-sparkles'),
         ];
     }
