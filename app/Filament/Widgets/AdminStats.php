@@ -14,7 +14,7 @@ class AdminStats extends StatsOverviewWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Destination', Destination::count())
+            Stat::make('Destination listed', Destination::count())
                 ->icon('heroicon-o-map'),
 
             Stat::make('Packages', Package::count())
