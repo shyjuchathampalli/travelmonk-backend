@@ -20,7 +20,7 @@ class AdminStats extends StatsOverviewWidget
             Stat::make('Packages Listed', Package::count())
                 ->icon('heroicon-o-archive-box'),
 
-            Stat::make('Active Vendors', Vendor::where('status', true)->count())
+            Stat::make('Active Vendors Listed', Vendor::where('status', true)->count())
                 ->icon('heroicon-o-building-storefront'),
 
             Stat::make('Active Activities', Activity::where('status', true)->count())
