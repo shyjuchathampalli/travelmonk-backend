@@ -14,16 +14,16 @@ class AdminStats extends StatsOverviewWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Destination Listed', Destination::count())
+            Stat::make('Destination', Destination::count())
                 ->icon('heroicon-o-map'),
 
-            Stat::make('Packages Listed', Package::count())
+            Stat::make('Packages', Package::count())
                 ->icon('heroicon-o-archive-box'),
 
-            Stat::make('Active Vendors Listed', Vendor::where('status', true)->count())
+            Stat::make('Active Vendors', Vendor::where('status', true)->count())
                 ->icon('heroicon-o-building-storefront'),
 
-            Stat::make('Active Activities Listed', Activity::where('status', true)->count())
+            Stat::make('Active Activities', Activity::where('status', true)->count())
                 ->icon('heroicon-o-sparkles'),
         ];
     }
