@@ -14,10 +14,10 @@ class AdminStats extends StatsOverviewWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Destinations', Destination::count())
+            Stat::make('Destinations List', Destination::count())
                 ->icon('heroicon-o-map'),
 
-            Stat::make('Packages', Package::count())
+            Stat::make('Packages List', Package::count())
                 ->icon('heroicon-o-archive-box'),
 
             Stat::make('Active Vendors', Vendor::where('status', true)->count())
