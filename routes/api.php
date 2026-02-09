@@ -51,3 +51,8 @@ Route::prefix('v1')->group(function () {
 Route::prefix('v1')->group(function () {
     Route::get('/vendors', [VendorController::class, 'index']);
 });
+
+Route::prefix('v1')->group(function () {
+    Route::get('/states', [StateController::class, 'index']);
+    Route::get('/states/{slug}', [StateController::class, 'show']); // 👈 NEW
+});

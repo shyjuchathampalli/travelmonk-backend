@@ -12,6 +12,9 @@ class State extends Model
     protected $fillable = [
         'country_id',
         'name',
+        'slug',
+        'banner_image',
+        'thumbnail_image',
         'code',
         'status',
     ];

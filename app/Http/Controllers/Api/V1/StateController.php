@@ -22,4 +22,30 @@ class StateController extends Controller
 
         return StateResource::collection($states);
     }
+
+    public function show(string $slug)
+    {
+        $state = State::with('country')
+            ->where('slug', $slug)
+            ->where('status', true)
+            ->firstOrFail();
+
+        return response()->json([
+            'id' => $state->id,
+            'name' => $state->name,
+            'slug' => $state->slug,
+            'banner_image' => $this->assetUrl($state->banner_image),
+            'thumbnail_image' => $this->assetUrl($state->thumbnail_image),
+            'status' => (bool) $state->status,
+            'country' => [
+                'id' => $state->country->id,
+                'name' => $state->country->name,
+            ],
+        ]);
+    }
+
+    private function assetUrl(?string $path): ?string
+    {
+        return $path ? asset('storage/' . $path) : null;
+    }
 }
