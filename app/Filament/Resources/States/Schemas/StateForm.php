@@ -26,17 +26,21 @@ class StateForm
                 ->helperText('Used in URLs like /trip/kerala'),
 
             FileUpload::make('banner_image')
-                ->label('Banner Image')
-                ->image()
-                ->directory('states/banners')
-                ->imageEditor()
-                ->columnSpanFull(),
+            ->label('Banner Image')
+            ->image()
+            ->disk('public') // ✅ REQUIRED
+            ->directory('states/banners')
+            ->visibility('public')
+            ->imageEditor()
+            ->columnSpanFull(),
 
             FileUpload::make('thumbnail_image')
-                ->label('Thumbnail Image')
-                ->image()
-                ->directory('states/thumbnails')
-                ->imageEditor(),
+            ->label('Thumbnail Image')
+            ->image()
+            ->disk('public') // ✅ REQUIRED
+            ->directory('states/thumbnails')
+            ->visibility('public')
+            ->imageEditor(),
 
             Toggle::make('status')
                 ->label('Active')
