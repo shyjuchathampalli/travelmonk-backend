@@ -23,6 +23,10 @@ class PackageController extends Controller
                 'arrivalPoints:id,name',
             ]);
 
+        if ($request->boolean('latest')) {
+            $query->latest();
+        }
+
         // Filters
         if ($request->filled('destination_id')) {
             $query->whereHas('destinations', fn ($q) =>
@@ -30,10 +34,13 @@ class PackageController extends Controller
             );
         }
 
-        if ($request->filled('category_id')) {
-            $query->whereHas('categories', fn ($q) =>
-                $q->where('destination_categories.id', $request->category_id)
-            );
+        if ($request->filled('category_ids')) {
+
+            $categoryIds = explode(',', $request->category_ids);
+
+            $query->whereHas('categories', function ($q) use ($categoryIds) {
+                $q->whereIn('destination_categories.id', $categoryIds);
+            });
         }
 
         if ($request->filled('arrival_point_id')) {
@@ -45,13 +52,18 @@ class PackageController extends Controller
         // Include day plans if requested
         if ($request->boolean('with_day_plans')) {
             $query->with([
-                'dayPlans.destination:id,name',
-                'dayPlans.activities:id,name',
+                'dayPlans' => function ($q) {
+                    $q->orderBy('day_number')
+                    ->with([
+                        'destination:id,name',
+                        'activities:id,name'
+                    ]);
+                }
             ]);
         }
 
         return PackageResource::collection(
-            $query->orderBy('name')->get()
+            $query->orderBy('name')->paginate(10)
         );
     }
 
