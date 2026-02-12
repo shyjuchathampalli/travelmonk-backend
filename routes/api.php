@@ -12,6 +12,10 @@ use App\Http\Controllers\Api\V1\TravelPurposeController;
 use App\Http\Controllers\Api\V1\VendorController;
 
 Route::prefix('v1')->group(function () {
+    require __DIR__.'/api_v1/auth.php';
+});
+
+Route::prefix('v1')->group(function () {
     Route::get('/states', [StateController::class, 'index']);
 });
 
