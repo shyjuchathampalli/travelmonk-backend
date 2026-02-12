@@ -18,7 +18,7 @@ class PackageController extends Controller
         $query = Package::query()
             ->where('status', true)
             ->with([
-                'destinations:id,name',
+                'destinations:id,name,image',
                 'categories:id,name,icon',
                 'arrivalPoints:id,name',
             ]);
