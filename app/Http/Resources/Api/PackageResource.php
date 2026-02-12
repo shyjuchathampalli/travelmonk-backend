@@ -24,11 +24,39 @@ class PackageResource extends JsonResource
                 ? asset('storage/' . $this->route_map_image)
                 : null,
 
-            'destinations' => $this->destinations->pluck('name'),
-            'categories'   => $this->categories->pluck('name'),
-            'arrival_points' => $this->arrivalPoints->pluck('name'),
+            // 🔥 FULL DESTINATION OBJECTS
+            'destinations' => $this->whenLoaded('destinations', function () {
+                return $this->destinations->map(function ($destination) {
+                    return [
+                        'id' => $destination->id,
+                        'name' => $destination->name,
+                        'image' => $destination->image
+                            ? asset('storage/' . $destination->image)
+                            : null,
+                    ];
+                });
+            }),
 
-            // Only included if eager-loaded
+            // 🔥 FULL CATEGORY OBJECTS
+            'categories' => $this->whenLoaded('categories', function () {
+                return $this->categories->map(function ($category) {
+                    return [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                        'icon' => $category->icon,
+                    ];
+                });
+            }),
+
+            'arrival_points' => $this->whenLoaded('arrivalPoints', function () {
+                return $this->arrivalPoints->map(function ($point) {
+                    return [
+                        'id' => $point->id,
+                        'name' => $point->name,
+                    ];
+                });
+            }),
+
             'day_plans' => $this->whenLoaded('dayPlans', function () {
                 return PackageDayPlanResource::collection($this->dayPlans);
             }),
