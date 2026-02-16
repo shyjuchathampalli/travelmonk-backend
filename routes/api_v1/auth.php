@@ -22,6 +22,9 @@ Route::prefix('auth')->group(function () {
         ]);
     })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
 
+    Route::post('/email/resend', [AuthController::class, 'resendVerification'])
+    ->middleware('auth:sanctum');
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);

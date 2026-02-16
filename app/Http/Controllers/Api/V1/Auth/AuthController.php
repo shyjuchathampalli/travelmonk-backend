@@ -102,7 +102,9 @@ class AuthController extends Controller
             ]
         );
 
-        $user->assignRole('traveler');
+        if (!$user->hasRole('traveler')) {
+            $user->assignRole('traveler');
+        }
 
         $token = $user->createToken('travelmonk')->plainTextToken;
 
@@ -110,5 +112,16 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ]);
+    }
+
+    public function resendVerification(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Already verified']);
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json(['message' => 'Verification email resent']);
     }
 }
