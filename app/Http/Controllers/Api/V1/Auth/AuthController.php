@@ -25,14 +25,17 @@ class AuthController extends Controller
             'password' => $request->password,
         ]);
 
-        $user->assignRole('traveler');
+        // Assign traveler role if not already assigned
+        if (!$user->hasRole('traveler')) {
+            $user->assignRole('traveler');
+        }
 
-        $token = $user->createToken('travelmonk')->plainTextToken;
+        // Send email verification
+        $user->sendEmailVerificationNotification();
 
         return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
+            'message' => 'Registration successful. Please verify your email.'
+        ], 201);
     }
 
     public function login(Request $request)
@@ -44,10 +47,17 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['Invalid credentials'],
             ]);
+        }
+
+        // Block login if email not verified
+        if (!$user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Please verify your email before logging in.'
+            ], 403);
         }
 
         $token = $user->createToken('travelmonk')->plainTextToken;
@@ -57,6 +67,7 @@ class AuthController extends Controller
             'token' => $token,
         ]);
     }
+
 
     public function me(Request $request)
     {
