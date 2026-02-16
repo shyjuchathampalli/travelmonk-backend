@@ -16,11 +16,12 @@ Route::prefix('auth')->group(function () {
 
     // Email verification
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return response()->json([
-            'message' => 'Email verified successfully'
-        ]);
-    })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+    $request->fulfill();
+
+    return redirect()->away('http://localhost:3000/email-verified');
+    })
+    ->middleware(['signed'])
+    ->name('verification.verify');
 
     Route::post('/email/resend', [AuthController::class, 'resendVerification'])
     ->middleware('auth:sanctum');
