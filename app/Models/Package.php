@@ -11,6 +11,7 @@ class Package extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'number_of_days',
         'base_price',
@@ -54,5 +55,10 @@ class Package extends Model
     public function dayPlans()
     {
         return $this->hasMany(PackageDayPlan::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

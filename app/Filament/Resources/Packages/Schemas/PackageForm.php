@@ -19,8 +19,17 @@ class PackageForm
                 ->columns(2)
                 ->components([
                     TextInput::make('name')
-                        ->required()
-                        ->maxLength(255),
+                    ->required()
+                    ->maxLength(255)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn ($state, callable $set) =>
+                        $set('slug', \Illuminate\Support\Str::slug($state))
+                    ),
+
+                TextInput::make('slug')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
 
                     TextInput::make('number_of_days')
                         ->numeric()
