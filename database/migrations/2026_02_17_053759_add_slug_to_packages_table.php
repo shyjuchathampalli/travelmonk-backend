@@ -8,19 +8,18 @@ use Illuminate\Support\Str;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
+        // Step 1: Add nullable slug column
         Schema::table('packages', function (Blueprint $table) {
             $table->string('slug')->nullable()->after('name');
         });
 
-        // Generate unique slugs
+        // Step 2: Generate unique slugs for existing data
         $packages = DB::table('packages')->get();
 
         foreach ($packages as $package) {
+
             $baseSlug = Str::slug($package->name);
             $slug = $baseSlug;
             $counter = 1;
@@ -34,8 +33,9 @@ return new class extends Migration
                 ->update(['slug' => $slug]);
         }
 
-        // Now make it unique
+        // Step 3: Make slug unique
         Schema::table('packages', function (Blueprint $table) {
+            $table->string('slug')->nullable(false)->change();
             $table->unique('slug');
         });
     }
