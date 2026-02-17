@@ -28,6 +28,9 @@ class PackageDetailResource extends JsonResource
             'destinations' => $this->destinations->map(fn ($d) => [
                 'id' => $d->id,
                 'name' => $d->name,
+                'image' => $d->image
+                    ? asset('storage/' . $d->image)
+                    : null,
             ]),
 
             'categories' => $this->categories->map(fn ($c) => [
