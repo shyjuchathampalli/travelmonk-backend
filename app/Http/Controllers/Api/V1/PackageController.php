@@ -73,7 +73,7 @@ class PackageController extends Controller
     public function show(Package $package)
     {
         $package->load([
-            'destinations:id,name',
+            'destinations:id,name,image',
             'categories:id,name,icon',
             'arrivalPoints:id,name',
             'dayPlans.destination:id,name',
