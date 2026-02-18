@@ -11,10 +11,13 @@ class PackageDayPlanResource extends JsonResource
     {
         return [
             'day' => $this->day_number,
-            'destination' => [
-                'id' => $this->destination?->id,
-                'name' => $this->destination?->name,
-            ],
+            'destination' => $this->destination ? [
+            'id' => $this->destination->id,
+            'name' => $this->destination->name,
+            'image' => $this->destination->image
+                ? asset('storage/' . $this->destination->image)
+                : null,
+        ] : null,
             'description' => $this->description,
             'activities' => $this->activities->map(fn ($a) => [
                 'id' => $a->id,
