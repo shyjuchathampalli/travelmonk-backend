@@ -70,7 +70,7 @@ class TripRequestController extends Controller
 
             // Create TripRequest
             $trip = TripRequest::create([
-                'user_id' => auth()->id(),
+                'user_id' => auth()->id() ?? 1;
                 'package_id' => $request->package_id,
                 'arrival_date' => $request->arrival_date,
                 'end_date' => $request->end_date,
