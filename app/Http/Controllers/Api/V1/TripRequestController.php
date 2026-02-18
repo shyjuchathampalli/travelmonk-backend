@@ -72,7 +72,7 @@ class TripRequestController extends Controller
 
             // Create TripRequest
             $trip = TripRequest::create([
-                'user_id' => auth()->id() ?? 1;
+                'user_id' => auth()->id() ?? 1,
                 'package_id' => $request->package_id,
                 'arrival_date' => $request->arrival_date,
                 'end_date' => $request->end_date,
@@ -120,7 +120,7 @@ class TripRequestController extends Controller
             $trip->load([
                 'itineraries.activities',
                 'childrenDetails',
-                'travelPurposes'
+                'travelPurposes',
             ]);
 
             return response()->json([
