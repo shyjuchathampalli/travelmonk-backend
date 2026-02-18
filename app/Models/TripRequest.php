@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class TripRequest extends Model
 {
@@ -64,5 +65,14 @@ class TripRequest extends Model
     public function childrenDetails()
     {
         return $this->hasMany(TripRequestChild::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($trip) {
+            $trip->reference_code = strtoupper(Str::random(20));
+        });
     }
 }
