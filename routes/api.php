@@ -62,7 +62,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/states/{slug}', [StateController::class, 'show']); // 👈 NEW
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
     Route::post('/trips', [TripRequestController::class, 'store']);
     Route::get('/packages/{slug}/load', [TripRequestController::class, 'loadPackage']);
