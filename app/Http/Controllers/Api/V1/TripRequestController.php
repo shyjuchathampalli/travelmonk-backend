@@ -52,7 +52,7 @@ class TripRequestController extends Controller
      */
     public function store(Request $request)
     {
-        dd('STORE METHOD HIT');
+        //dd('STORE METHOD HIT');
         $request->validate([
             'package_id' => 'required|exists:packages,id',
             'arrival_date' => 'required|date',
