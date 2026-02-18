@@ -10,7 +10,9 @@ class TripRequest extends Model
     use HasFactory;
 
     protected $fillable = [
+        'reference_code',
         'user_id',
+        'package_id',
         'arrival_date',
         'end_date',
         'number_of_days',
@@ -57,5 +59,10 @@ class TripRequest extends Model
     public function itineraries()
     {
         return $this->hasMany(Itinerary::class);
+    }
+
+    public function childrenDetails()
+    {
+        return $this->hasMany(TripRequestChild::class);
     }
 }
