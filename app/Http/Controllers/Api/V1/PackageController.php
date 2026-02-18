@@ -55,7 +55,7 @@ class PackageController extends Controller
                 'dayPlans' => function ($q) {
                     $q->orderBy('day_number')
                     ->with([
-                        'destination:id,name',
+                        'destination:id,name,image',
                         'activities:id,name'
                     ]);
                 }
