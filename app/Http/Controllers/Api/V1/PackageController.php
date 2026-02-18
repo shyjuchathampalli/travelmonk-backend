@@ -76,7 +76,7 @@ class PackageController extends Controller
             'destinations:id,name,image',
             'categories:id,name,icon',
             'arrivalPoints:id,name',
-            'dayPlans.destination:id,name',
+            'dayPlans.destination:id,name,image',
             'dayPlans.activities:id,name',
         ]);
 
