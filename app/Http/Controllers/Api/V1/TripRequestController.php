@@ -68,6 +68,8 @@ class TripRequestController extends Controller
 
         try {
 
+          \Log::info('Creating trip with data:', $request->all());
+
             // Create TripRequest
             $trip = TripRequest::create([
                 'user_id' => auth()->id() ?? 1;
@@ -128,11 +130,14 @@ class TripRequestController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
+        DB::rollBack();
+
+        return response()->json([
+            'success' => false,
+            'error' => $e->getMessage(),
+            'line' => $e->getLine(),
+            'file' => $e->getFile(),
+        ], 500);
+    }
     }
 }
