@@ -22,7 +22,6 @@ class TripRequestController extends Controller
 
         if (auth()->check()) {
             $trip = TripRequest::with([
-                    'itineraries.activities',
                     'childrenDetails',
                     'travelPurposes'
                 ])
@@ -73,7 +72,7 @@ class TripRequestController extends Controller
 
             // Create TripRequest
             $trip = TripRequest::create([
-                'user_id' => auth()->id() ?? 1,
+                'user_id' => auth()->id(),
                 'package_id' => $request->package_id,
                 'arrival_point_id' => $request->arrival_point_id,
                 'arrival_date' => $request->arrival_date,
