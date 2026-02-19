@@ -55,6 +55,7 @@ class TripRequestController extends Controller
         //dd('STORE METHOD HIT');
         $request->validate([
             'package_id' => 'required|exists:packages,id',
+            'arrival_point_id' => 'required|exists:arrival_points,id',
             'arrival_date' => 'required|date',
             'end_date' => 'required|date',
             'number_of_days' => 'required|integer|min:1',
@@ -76,6 +77,7 @@ class TripRequestController extends Controller
             $trip = TripRequest::create([
                 'user_id' => auth()->id() ?? 1,
                 'package_id' => $request->package_id,
+                'arrival_point_id' => $request->arrival_point_id,
                 'arrival_date' => $request->arrival_date,
                 'end_date' => $request->end_date,
                 'number_of_days' => $request->number_of_days,
