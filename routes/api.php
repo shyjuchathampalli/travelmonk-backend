@@ -22,6 +22,7 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('v1')->group(function () {
     Route::get('/arrival-points', [ArrivalPointController::class, 'index']);
+    Route::get('/arrival-points/search', [ArrivalPointController::class, 'search']);
 });
 
 Route::prefix('v1')->group(function () {

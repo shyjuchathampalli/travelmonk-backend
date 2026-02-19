@@ -22,4 +22,19 @@ class ArrivalPointController extends Controller
 
         return ArrivalPointResource::collection($arrivalPoints);
     }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|string|min:2',
+        ]);
+
+        $arrivalPoints = ArrivalPoint::where('status', true)
+            ->where('name', 'like', '%' . $request->query . '%')
+            ->orderBy('name')
+            ->limit(10)
+            ->get();
+
+        return ArrivalPointResource::collection($arrivalPoints);
+    }
 }
