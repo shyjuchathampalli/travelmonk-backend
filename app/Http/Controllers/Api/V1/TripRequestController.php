@@ -85,7 +85,7 @@ class TripRequestController extends Controller
                 'children' => $request->children,
                 'stay_option' => $request->stay_option,
                 'transport_option' => $request->transport_option,
-                'status' => 'draft',
+                'status' => 'in_progress',
             ]);
 
             // Save Travel Purpose
