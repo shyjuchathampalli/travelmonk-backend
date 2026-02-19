@@ -16,8 +16,7 @@ class TripRequestController extends Controller
     public function loadPackage($slug)
     {
         $package = Package::where('slug', $slug)
-            ->with(['itineraries.activities'])
-            ->firstOrFail();
+        ->firstOrFail();
 
         $trip = null;
 
