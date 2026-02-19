@@ -67,5 +67,6 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/trips', [TripRequestController::class, 'store']);
     Route::get('/packages/{slug}/load', [TripRequestController::class, 'loadPackage']);
+    Route::put('/trips/{trip}', [TripRequestController::class, 'update']);
 
 });

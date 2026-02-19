@@ -127,4 +127,33 @@ class TripRequestController extends Controller
         ], 500);
     }
     }
+
+    public function update(Request $request, TripRequest $trip)
+    {
+        $request->validate([
+            'arrival_date' => 'required|date',
+            'end_date' => 'required|date',
+            'number_of_days' => 'required|integer|min:1',
+            'arrival_point_id' => 'required|exists:arrival_points,id',
+            'adults' => 'required|integer|min:1',
+            'children' => 'required|integer|min:0',
+        ]);
+
+        $trip->update([
+            'arrival_date' => $request->arrival_date,
+            'end_date' => $request->end_date,
+            'number_of_days' => $request->number_of_days,
+            'arrival_point_id' => $request->arrival_point_id,
+            'adults' => $request->adults,
+            'children' => $request->children,
+            'stay_option' => $request->stay_option,
+            'transport_option' => $request->transport_option,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'mode' => 'trip',
+            'data' => $trip->fresh()
+        ]);
+    }
 }
