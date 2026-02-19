@@ -28,7 +28,6 @@ class TripRequestController extends Controller
                 ])
                 ->where('user_id', auth()->id())
                 ->where('package_id', $package->id)
-                ->where('status', 'draft')
                 ->latest()
                 ->first();
         }
