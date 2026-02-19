@@ -102,28 +102,10 @@ class TripRequestController extends Controller
                 }
             }
 
-            // Clone Itineraries
-            $package = Package::with('itineraries.activities')
-                ->find($request->package_id);
-
-            foreach ($package->itineraries as $day) {
-
-                $tripDay = $trip->itineraries()->create([
-                    'day_number' => $day->day_number,
-                    'title' => $day->title,
-                    'description' => $day->description,
-                ]);
-
-                foreach ($day->activities as $activity) {
-                    $tripDay->activities()->attach($activity->id);
-                }
-            }
-
             DB::commit();
 
             // Reload full data
             $trip->load([
-                'itineraries.activities',
                 'childrenDetails',
                 'travelPurposes',
             ]);
