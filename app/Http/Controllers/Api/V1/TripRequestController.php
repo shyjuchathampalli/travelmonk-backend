@@ -137,6 +137,7 @@ class TripRequestController extends Controller
             'children' => 'required|integer|min:0',
         ]);
 
+        // ✅ Update main columns
         $trip->update([
             'arrival_date' => $request->arrival_date,
             'end_date' => $request->end_date,
@@ -148,10 +149,47 @@ class TripRequestController extends Controller
             'transport_option' => $request->transport_option,
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | ✅ Travel Purpose Sync
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('travel_purpose_id')) {
+            $trip->travelPurposes()->sync([
+                $request->travel_purpose_id
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | ✅ Children Ages Sync
+        |--------------------------------------------------------------------------
+        */
+
+        // remove old children
+        $trip->childrenDetails()->delete();
+
+        $ages = array_slice(
+            $request->children_ages ?? [],
+            0,
+            $request->children
+        );
+
+        foreach ($ages as $age) {
+            $trip->childrenDetails()->create([
+                'age' => $age
+            ]);
+        }
+
         return response()->json([
             'success' => true,
             'mode' => 'trip',
-            'data' => $trip->fresh()
+            'data' => $trip->fresh()->load([
+                'childrenDetails',
+                'travelPurposes',
+                'arrivalPoint'
+            ])
         ]);
     }
 }
