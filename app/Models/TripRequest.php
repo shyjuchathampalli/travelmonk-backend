@@ -26,8 +26,8 @@ class TripRequest extends Model
     ];
 
     protected $casts = [
-        'arrival_date' => 'date',
-        'end_date' => 'date',
+    'arrival_date' => 'date:Y-m-d',
+    'end_date' => 'date:Y-m-d',
     ];
 
     /**

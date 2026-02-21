@@ -22,6 +22,7 @@ class TripRequestController extends Controller
 
         if (auth()->check()) {
             $trip = TripRequest::with([
+                    'arrivalPoint',
                     'childrenDetails',
                     'travelPurposes'
                 ])
