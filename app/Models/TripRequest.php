@@ -67,6 +67,11 @@ class TripRequest extends Model
         return $this->hasMany(TripRequestChild::class);
     }
 
+    public function arrivalPoint()
+    {
+        return $this->belongsTo(ArrivalPoint::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
