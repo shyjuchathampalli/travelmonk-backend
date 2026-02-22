@@ -159,7 +159,7 @@ class TripRequestController extends Controller
                     'trip_request_id' => $trip->id,
                     'itinerary_id' => $itinerary->id,
                     'activity_id' => $activity->id,
-                    'status' => 'selected'
+                    'status' => 'pending'
                 ]);
             }
         }
