@@ -143,7 +143,7 @@ class TripRequestController extends Controller
 
         foreach ($package->dayPlans as $day) {
 
-        \Log::info('Day: ' . $day->day . ', Destination ID: ' . ($day->destination_id ?? null));
+        \Log::info('Day: ' . $day->day_number . ', Destination ID: ' . ($day->destination_id ?? null));
 
             $itinerary = Itinerary::create([
                 'trip_request_id' => $trip->id,
