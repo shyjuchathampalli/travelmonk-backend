@@ -29,7 +29,7 @@ class TripRequestController extends Controller
                     'childrenDetails',
                     'travelPurposes',
                     'itineraries.destination',
-                    'itineraries.activities.activity',
+                    'itineraries.itineraryActivities.activity',
                 ])
                 ->where('user_id', auth()->id())
                 ->where('package_id', $package->id)
@@ -113,6 +113,8 @@ class TripRequestController extends Controller
             $trip->load([
                 'childrenDetails',
                 'travelPurposes',
+                'itineraries.destination',
+                'itineraries.itineraryActivities.activity',
             ]);
 
             return response()->json([
