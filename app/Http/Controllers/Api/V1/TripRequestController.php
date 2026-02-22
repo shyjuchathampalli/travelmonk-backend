@@ -148,7 +148,7 @@ class TripRequestController extends Controller
             $itinerary = Itinerary::create([
                 'trip_request_id' => $trip->id,
                 'package_id' => $package->id,
-                'day_number' => $day->day,
+                'day_number' => $day->day_number,
                 'destination_id' => $day->destination_id,
                 'status' => 'draft'
             ]);
