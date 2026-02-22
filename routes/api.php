@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\PackageController;
 use App\Http\Controllers\Api\V1\TravelPurposeController;
 use App\Http\Controllers\Api\V1\VendorController;
 use App\Http\Controllers\Api\V1\TripRequestController;
+use App\Http\Controllers\Api\V1\ItineraryController;
 
 Route::prefix('v1')->group(function () {
     require __DIR__.'/api_v1/auth.php';
@@ -60,7 +61,7 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('v1')->group(function () {
     Route::get('/states', [StateController::class, 'index']);
-    Route::get('/states/{slug}', [StateController::class, 'show']); // 👈 NEW
+    Route::get('/states/{slug}', [StateController::class, 'show']);
 });
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
@@ -68,5 +69,19 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('/trips', [TripRequestController::class, 'store']);
     Route::get('/packages/{slug}/load', [TripRequestController::class, 'loadPackage']);
     Route::put('/trips/{trip}', [TripRequestController::class, 'update']);
+
+});
+
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+
+    Route::post(
+        '/itineraries/{itinerary}/activities/sync',
+        [ItineraryController::class, 'syncActivities']
+    );
+
+    Route::put(
+        '/itineraries/{itinerary}/notes',
+        [ItineraryController::class, 'updateNotes']
+    );
 
 });

@@ -7,6 +7,9 @@ use App\Models\Package;
 use App\Models\TripRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+// Models
+use App\Models\Itinerary;
+use App\Models\ItineraryActivity;
 
 class TripRequestController extends Controller
 {
@@ -24,7 +27,9 @@ class TripRequestController extends Controller
             $trip = TripRequest::with([
                     'arrivalPoint',
                     'childrenDetails',
-                    'travelPurposes'
+                    'travelPurposes',
+                    'itineraries.destination',
+                    'itineraries.activities.activity',
                 ])
                 ->where('user_id', auth()->id())
                 ->where('package_id', $package->id)
@@ -86,6 +91,8 @@ class TripRequestController extends Controller
                 'status' => 'in_progress',
             ]);
 
+            $this->createItineraryFromPackage($trip);
+
             // Save Travel Purpose
             if ($request->travel_purpose_id) {
                 $trip->travelPurposes()->sync([$request->travel_purpose_id]);
@@ -124,6 +131,34 @@ class TripRequestController extends Controller
             'file' => $e->getFile(),
         ], 500);
     }
+    }
+
+    private function createItineraryFromPackage(TripRequest $trip)
+    {
+        $package = Package::with([
+            'dayPlans.activities'
+        ])->findOrFail($trip->package_id);
+
+        foreach ($package->dayPlans as $day) {
+
+            $itinerary = Itinerary::create([
+                'trip_request_id' => $trip->id,
+                'package_id' => $package->id,
+                'day_number' => $day->day,
+                'destination_id' => $day->destination_id,
+                'status' => 'draft'
+            ]);
+
+            foreach ($day->activities as $activity) {
+
+                ItineraryActivity::create([
+                    'trip_request_id' => $trip->id,
+                    'itinerary_id' => $itinerary->id,
+                    'activity_id' => $activity->id,
+                    'status' => 'selected'
+                ]);
+            }
+        }
     }
 
     public function update(Request $request, TripRequest $trip)

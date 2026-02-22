@@ -32,4 +32,17 @@ class Itinerary extends Model
     {
         return $this->belongsTo(Destination::class);
     }
+
+    public function activities()
+    {
+        return $this->hasMany(ItineraryActivity::class);
+    }
+
+    public function selectedActivities()
+    {
+        return $this->belongsToMany(
+            Activity::class,
+            'itinerary_activities'
+        );
+    }
 }
