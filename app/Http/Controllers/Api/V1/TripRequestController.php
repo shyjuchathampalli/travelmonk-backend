@@ -135,11 +135,15 @@ class TripRequestController extends Controller
 
     private function createItineraryFromPackage(TripRequest $trip)
     {
+        \Log::info('Generating itineraries...');
+
         $package = Package::with([
             'dayPlans.activities'
         ])->findOrFail($trip->package_id);
 
         foreach ($package->dayPlans as $day) {
+
+        \Log::info('Day: ' . $day->day . ', Destination ID: ' . ($day->destination_id ?? null));
 
             $itinerary = Itinerary::create([
                 'trip_request_id' => $trip->id,
