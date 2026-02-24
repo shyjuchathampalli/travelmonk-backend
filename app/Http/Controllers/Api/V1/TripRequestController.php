@@ -29,7 +29,7 @@ class TripRequestController extends Controller
                     'childrenDetails',
                     'travelPurposes',
                     'itineraries.destination',
-                    'itineraries.itineraryActivities.activity',
+                    'itineraries.activities.activity',
                 ])
                 ->where('user_id', auth()->id())
                 ->where('package_id', $package->id)
