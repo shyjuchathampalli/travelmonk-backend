@@ -21,6 +21,7 @@ class Itinerary extends Model
         'margin',
         'offer',
         'status',
+        'notes',
     ];
 
     public function tripRequest()
