@@ -1,0 +1,54 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        DB::statement("
+            ALTER TABLE trip_requests
+            MODIFY COLUMN status ENUM(
+                'in_progress',
+                'paused',
+                'postponed',
+                'abandoned',
+                'quote_requested',
+                'priced',
+                'paid',
+                'confirmed',
+                'active_trip',
+                'completed'
+            )
+            NOT NULL DEFAULT 'in_progress'
+        ");
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        DB::statement("
+            ALTER TABLE trip_requests
+            MODIFY COLUMN status ENUM(
+                'in_progress',
+                'paused',
+                'postponed',
+                'abandoned',
+                'priced',
+                'paid',
+                'confirmed',
+                'active_trip',
+                'completed'
+            )
+            NOT NULL DEFAULT 'in_progress'
+        ");
+    }
+};
