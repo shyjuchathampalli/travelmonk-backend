@@ -84,4 +84,9 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         [ItineraryController::class, 'updateNotes']
     );
 
+    Route::put(
+        '/trip-requests/{trip}/status',
+        [TripRequestController::class, 'updateStatus']
+    );
+
 });

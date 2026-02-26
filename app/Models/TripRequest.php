@@ -23,6 +23,7 @@ class TripRequest extends Model
         'stay_option',
         'transport_option',
         'status',
+        'final_price',
     ];
 
     protected $casts = [

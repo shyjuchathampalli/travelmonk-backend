@@ -232,4 +232,40 @@ class TripRequestController extends Controller
             ])
         ]);
     }
+
+
+    public function updateStatus(Request $request, TripRequest $trip)
+    {
+        if ($trip->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'status' => 'required|string'
+        ]);
+
+        $allowedTransitions = [
+            'in_progress'     => ['quote_requested'],
+            'priced'          => ['confirmed'],
+            'confirmed'       => ['paid'],
+        ];
+
+        $current = $trip->status;
+        $next = $request->status;
+
+        if (!in_array($next, $allowedTransitions[$current] ?? [])) {
+            return response()->json([
+                'message' => 'Invalid status transition'
+            ], 422);
+        }
+
+        $trip->update([
+            'status' => $next
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $trip
+        ]);
+    }
 }
