@@ -21,19 +21,22 @@
 
 
 @if($this->record->status === 'quote_requested')
-<x-filament::section class="bg-warning-50 border-warning-300">
-    <div class="flex items-center gap-3">
-        <x-heroicon-o-exclamation-triangle class="w-6 h-6 text-warning-600"/>
-        <div>
-            <div class="font-semibold">
-                Quote Requested
-            </div>
-            <div class="text-sm text-gray-600">
-                Please prepare pricing for this trip.
-            </div>
-        </div>
+
+<div class="rounded-lg border border-warning-300 bg-warning-50 px-4 py-3 flex items-center gap-3 mb-6">
+
+    <x-heroicon-m-exclamation-triangle class="w-5 h-5 text-warning-600"/>
+
+    <div class="text-sm">
+        <span class="font-semibold text-warning-800">
+            Quote Requested
+        </span>
+        <span class="text-warning-700">
+            — Prepare pricing for this trip.
+        </span>
     </div>
-</x-filament::section>
+
+</div>
+
 @endif
 
 
