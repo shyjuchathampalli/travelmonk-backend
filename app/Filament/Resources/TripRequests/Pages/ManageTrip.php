@@ -27,7 +27,7 @@ class ManageTrip extends Page
             'itineraries.destination',
         ])->findOrFail($record);
 
-        $this->vendors = Vendor::pluck('name', 'id');
+        $this->vendors = Vendor::pluck('business_name', 'id');
     }
 
     public function updateStayVendor($itineraryId, $vendorId)
