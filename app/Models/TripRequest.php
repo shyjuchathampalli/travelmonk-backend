@@ -73,6 +73,11 @@ class TripRequest extends Model
         return $this->belongsTo(ArrivalPoint::class);
     }
 
+    public function package()
+    {
+        return $this->belongsTo(\App\Models\Package::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

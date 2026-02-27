@@ -1,8 +1,42 @@
 <x-filament::page>
 
-<h2 class="text-xl font-bold mb-6">
-    Trip {{ $this->record->reference_code }}
-</h2>
+<div class="space-y-6">
+
+    {{-- Trip Header --}}
+    <div class="bg-white rounded-2xl shadow p-6">
+
+        <div class="flex justify-between items-start">
+
+            <div>
+                <h2 class="text-2xl font-bold">
+                    {{ $this->record->package?->name ?? 'Custom Trip' }}
+                </h2>
+
+                <p class="text-sm text-gray-500 mt-1">
+                    Ref: {{ $this->record->reference_code }}
+                </p>
+
+                <p class="text-sm text-gray-500">
+                    {{ $this->record->arrival_date->format('M d, Y') }}
+                    →
+                    {{ $this->record->end_date->format('M d, Y') }}
+                </p>
+            </div>
+
+            <div>
+                <span class="px-3 py-1 rounded-full text-sm
+                    @if($this->record->status === 'quote_requested') bg-yellow-100 text-yellow-700
+                    @elseif($this->record->status === 'confirmed') bg-green-100 text-green-700
+                    @else bg-gray-100 text-gray-700
+                    @endif
+                ">
+                    {{ ucfirst(str_replace('_', ' ', $this->record->status)) }}
+                </span>
+            </div>
+
+        </div>
+
+    </div>
 
 @foreach ($this->record->itineraries as $day)
 
