@@ -54,7 +54,7 @@ class TripRequestsTable
                         'completed' => 'Completed',
                     ]),
             ])
-            ->actions([
+            ->recordActions([
     Action::make('manage')
         ->label('Manage Trip')
         ->icon('heroicon-o-cog-6-tooth')
