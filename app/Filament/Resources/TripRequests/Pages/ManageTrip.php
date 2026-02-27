@@ -10,18 +10,15 @@ use App\Models\Itinerary;
 use App\Models\ItineraryActivity;
 
 
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Forms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 
-class ManageTrip extends Page implements HasForms
+class ManageTrip extends Page
 {
     use InteractsWithRecord;
-    use InteractsWithForms;
 
     protected static string $resource = TripRequestResource::class;
 
@@ -62,9 +59,9 @@ class ManageTrip extends Page implements HasForms
         $this->record->load('itineraries.activities.activity', 'itineraries.destination');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('Pricing')
                     ->schema([
