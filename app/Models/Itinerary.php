@@ -46,4 +46,14 @@ class Itinerary extends Model
             'itinerary_activities'
         );
     }
+
+    public function stayVendor()
+    {
+        return $this->belongsTo(\App\Models\Vendor::class, 'stay_vendor_id');
+    }
+
+    public function transportVendor()
+    {
+        return $this->belongsTo(\App\Models\Vendor::class, 'transport_vendor_id');
+    }
 }

@@ -48,4 +48,5 @@ class ItineraryActivity extends Model
     {
         return $this->belongsTo(Vendor::class);
     }
+
 }
