@@ -11,9 +11,9 @@ use App\Models\ItineraryActivity;
 
 
 use Filament\Schemas\Schema;
-use Filament\Forms;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Grid;
+
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\TextInput;
 
 class ManageTrip extends Page
