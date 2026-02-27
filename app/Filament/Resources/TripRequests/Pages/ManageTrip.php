@@ -16,6 +16,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 
 class ManageTrip extends Page
 {
@@ -29,17 +30,20 @@ class ManageTrip extends Page
 
     public function mount($record): void
     {
-        // Let Filament resolve the record
         $this->record = $this->resolveRecord($record);
 
-        // Eager load relationships
         $this->record->load([
             'itineraries.activities.activity',
             'itineraries.destination',
         ]);
 
-        // Load vendors properly
         $this->vendors = Vendor::pluck('business_name', 'id')->toArray();
+
+        // ⭐ IMPORTANT — bind form state
+        $this->form->fill([
+            'package_cost' => $this->record->package_cost,
+            'margin_percent' => $this->record->margin_percent,
+        ]);
     }
 
     public function updateStayVendor($itineraryId, $vendorId)
@@ -116,8 +120,8 @@ class ManageTrip extends Page
 
                     $data = $this->form->getState();
 
-                    $cost = $data['package_cost'] ?? 0;
-                    $margin = $data['margin_percent'] ?? 0;
+                    $cost = (float) ($data['package_cost'] ?? 0);
+                    $margin = (float) ($data['margin_percent'] ?? 0);
 
                     $finalPrice = round(
                         $cost + ($cost * $margin / 100),
@@ -131,11 +135,10 @@ class ManageTrip extends Page
                         'status' => 'priced',
                     ]);
 
-                    $this->notify('success', 'Pricing saved successfully');
-
-                    $this->redirect(
-                        TripRequestResource::getUrl('index')
-                    );
+                    Notification::make()
+                        ->title('Pricing saved successfully')
+                        ->success()
+                        ->send();
                 }),
         ];
     }
