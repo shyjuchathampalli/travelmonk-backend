@@ -15,6 +15,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\TextInput;
+use Filament\Actions\Action;
 
 class ManageTrip extends Page
 {
@@ -68,7 +69,8 @@ class ManageTrip extends Page
                         Grid::make(3)
                             ->schema([
 
-                                TextInput::make('transport_cost')
+                                TextInput::make('package_cost')
+                                    ->label('Package Cost')
                                     ->numeric()
                                     ->prefix('£'),
 
@@ -86,5 +88,29 @@ class ManageTrip extends Page
                         $this->record->status === 'quote_requested'
                     ),
             ]);
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('savePricing')
+                ->label('Save Pricing')
+                ->icon('heroicon-o-check')
+                ->color('primary')
+                ->visible(fn () => $this->record->status === 'quote_requested')
+                ->action(function () {
+
+                    $data = $this->form->getState();
+
+                    $this->record->update([
+                        'package_cost' => $data['package_cost'],
+                        'margin_percent' => $data['margin_percent'],
+                        'final_price' => $data['final_price'],
+                        'status' => 'priced',
+                    ]);
+
+                    $this->notify('success', 'Quote saved successfully');
+                }),
+        ];
     }
 }

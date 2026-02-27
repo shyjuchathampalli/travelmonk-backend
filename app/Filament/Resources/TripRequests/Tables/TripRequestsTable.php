@@ -31,13 +31,24 @@ class TripRequestsTable
                     ->label('Days'),
 
                 BadgeColumn::make('status')
-                    ->colors([
-                        'gray' => 'in_progress',
-                        'warning' => 'quote_requested',
-                        'primary' => 'priced',
-                        'success' => 'confirmed',
-                        'danger' => 'abandoned',
-                    ]),
+                ->formatStateUsing(fn ($state) => match ($state) {
+                    'quote_requested' => 'Quote Requested — Needs Pricing',
+                    'priced' => 'Quote Prepared',
+                    'confirmed' => 'Confirmed',
+                    'in_progress' => 'Draft',
+                    default => ucfirst($state),
+                })
+                ->colors([
+                    'warning' => 'quote_requested',
+                    'primary' => 'priced',
+                    'success' => 'confirmed',
+                    'gray' => 'in_progress',
+                ])
+                ->icons([
+                    'heroicon-o-currency-pound' => 'quote_requested',
+                    'heroicon-o-check-circle' => 'confirmed',
+                    'heroicon-o-clock' => 'in_progress',
+                ]),
 
                 TextColumn::make('final_price')
                     ->money('GBP')
