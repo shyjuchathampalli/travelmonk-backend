@@ -20,28 +20,25 @@
 </x-filament::section>
 
 
-@if($this->record->status === 'quote_requested')
+<x-filament::page>
 
-<div class="rounded-lg border border-warning-300 bg-warning-50 px-4 py-3 flex items-center gap-3 mb-6">
-
-    <x-heroicon-m-exclamation-triangle class="w-5 h-5 text-warning-600"/>
-
-    <div class="text-sm">
-        <span class="font-semibold text-warning-800">
-            Quote Requested
-        </span>
-        <span class="text-warning-700">
-            — Prepare pricing for this trip.
-        </span>
-    </div>
-
-</div>
-
-@endif
+    {{-- STATUS ALERT --}}
+    @if ($this->record->status === 'quote_requested')
+        <x-filament::section compact>
+            <div class="flex items-center gap-3 text-warning-700">
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5"/>
+                <span class="font-medium">
+                    Quote requested — prepare pricing for this trip.
+                </span>
+            </div>
+        </x-filament::section>
+    @endif
 
 
-{{-- ✅ PRICING PANEL --}}
-{{ $this->form }}
+    {{-- THIS IS THE MISSING PIECE --}}
+    {{ $this->form }}
+
+</x-filament::page>
 
 
 {{-- ITINERARY --}}
