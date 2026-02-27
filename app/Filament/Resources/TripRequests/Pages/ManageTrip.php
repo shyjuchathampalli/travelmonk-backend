@@ -9,9 +9,19 @@ use App\Models\Vendor;
 use App\Models\Itinerary;
 use App\Models\ItineraryActivity;
 
-class ManageTrip extends Page
+
+use Filament\Forms\Form;
+use Filament\Forms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\TextInput;
+
+class ManageTrip extends Page implements HasForms
 {
     use InteractsWithRecord;
+    use InteractsWithForms;
 
     protected static string $resource = TripRequestResource::class;
 
@@ -50,5 +60,34 @@ class ManageTrip extends Page
 
         $this->record->refresh();
         $this->record->load('itineraries.activities.activity', 'itineraries.destination');
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make('Pricing')
+                    ->schema([
+                        Grid::make(3)
+                            ->schema([
+
+                                TextInput::make('transport_cost')
+                                    ->numeric()
+                                    ->prefix('£'),
+
+                                TextInput::make('margin_percent')
+                                    ->numeric()
+                                    ->suffix('%'),
+
+                                TextInput::make('final_price')
+                                    ->disabled()
+                                    ->prefix('£'),
+
+                            ]),
+                    ])
+                    ->visible(fn () =>
+                        $this->record->status === 'quote_requested'
+                    ),
+            ]);
     }
 }
