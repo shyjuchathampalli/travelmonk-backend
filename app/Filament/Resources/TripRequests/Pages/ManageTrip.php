@@ -62,32 +62,44 @@ class ManageTrip extends Page
 
     public function form(Schema $schema): Schema
     {
-        return $schema
-            ->schema([
-                Section::make('Pricing')
-                    ->schema([
-                        Grid::make(3)
-                            ->schema([
+        return $schema->schema([
 
-                                TextInput::make('package_cost')
-                                    ->label('Package Cost')
-                                    ->numeric()
-                                    ->prefix('£'),
+            Section::make('Pricing')
+                ->schema([
 
-                                TextInput::make('margin_percent')
-                                    ->numeric()
-                                    ->suffix('%'),
+                    Grid::make(3)->schema([
 
-                                TextInput::make('final_price')
-                                    ->disabled()
-                                    ->prefix('£'),
+                        TextInput::make('package_cost')
+                            ->label('Package Cost')
+                            ->numeric()
+                            ->prefix('£')
+                            ->live(),
 
-                            ]),
-                    ])
-                    ->visible(fn () =>
-                        $this->record->status === 'quote_requested'
-                    ),
-            ]);
+                        TextInput::make('margin_percent')
+                            ->numeric()
+                            ->suffix('%')
+                            ->live(),
+
+                        TextInput::make('final_price')
+                            ->prefix('£')
+                            ->disabled()
+                            ->dehydrated(false) // ⭐ VERY IMPORTANT
+                            ->formatStateUsing(function ($state, $livewire) {
+
+                                $cost = $livewire->form->getState()['package_cost'] ?? 0;
+                                $margin = $livewire->form->getState()['margin_percent'] ?? 0;
+
+                                if (!$cost) return null;
+
+                                return round($cost + ($cost * $margin / 100), 2);
+                            }),
+
+                    ]),
+                ])
+                ->visible(fn () =>
+                    $this->record->status === 'quote_requested'
+                ),
+        ]);
     }
 
     protected function getHeaderActions(): array
@@ -97,19 +109,33 @@ class ManageTrip extends Page
                 ->label('Save Pricing')
                 ->icon('heroicon-o-check')
                 ->color('primary')
-                ->visible(fn () => $this->record->status === 'quote_requested')
+                ->visible(fn () =>
+                    $this->record->status === 'quote_requested'
+                )
                 ->action(function () {
 
                     $data = $this->form->getState();
 
+                    $cost = $data['package_cost'] ?? 0;
+                    $margin = $data['margin_percent'] ?? 0;
+
+                    $finalPrice = round(
+                        $cost + ($cost * $margin / 100),
+                        2
+                    );
+
                     $this->record->update([
-                        'package_cost' => $data['package_cost'],
-                        'margin_percent' => $data['margin_percent'],
-                        'final_price' => $data['final_price'],
+                        'package_cost' => $cost,
+                        'margin_percent' => $margin,
+                        'final_price' => $finalPrice,
                         'status' => 'priced',
                     ]);
 
-                    $this->notify('success', 'Quote saved successfully');
+                    $this->notify('success', 'Pricing saved successfully');
+
+                    $this->redirect(
+                        TripRequestResource::getUrl('index')
+                    );
                 }),
         ];
     }
