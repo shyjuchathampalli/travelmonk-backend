@@ -114,16 +114,5 @@ class ManageTrip extends Page
         ];
     }
 
-    public function savePricing()
-    {
-        $data = $this->form->getState();
-
-        $this->record->update([
-            'final_price' => $data['final_price'],
-        ]);
-
-        $this->notify('success', 'Pricing updated successfully');
-    }
-
 
 }
